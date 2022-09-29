@@ -19,4 +19,4 @@ comments:
   length: full
 globals:
   include:
-    - abl_link_.*
+    - abl_link.*

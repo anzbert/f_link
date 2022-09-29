@@ -9,7 +9,7 @@ import 'dart:ffi' as ffi;
 
 /// Bindings for `src/link/extensions/abl_link/include/abl_link.h`.
 ///
-/// Regenerate bindings with `flutter pub run ffigen --config ffigen.yaml`.
+/// Regenerate bindings with: flutter pub run ffigen --config ffigen.yaml
 ///
 class FLinkBindings {
   /// Holds the symbol lookup function.
