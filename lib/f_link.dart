@@ -47,11 +47,11 @@ class AblLink {
   ///  Realtime-safe: no
   AblLink(double bpm) : _link = _bindings.abl_link_create(bpm);
 
-  // /// Returns true if the Link Object has been disposed of in memory with [destroy]. A new instance can either be created by
-  // /// instancing another [AblLink] or by calling [create] on the current instance.
-  // bool isDestroyed() {
-  //   return _link == null ? true : false;
-  // }
+  /// Returns true if the Link Object has been disposed of in memory with [destroy]. A new instance can be created by
+  /// instancing another [AblLink]. Once destroyed, this Object can be overwritten or left to be cleaned up by the Garbage Collector when it leaves the current scope.
+  bool isDestroyed() {
+    return _link == null ? true : false;
+  }
 
   // ///  Construct a new abl_link instance with an initial tempo within this instance of AblLink.
   // ///
@@ -63,7 +63,6 @@ class AblLink {
   //     _link = _bindings.abl_link_create(bpm);
   //   } else {
   //     _bindings.abl_link_destroy(_link!);
-  //     _link = null;
   //     _link = _bindings.abl_link_create(bpm);
   //   }
   // }
@@ -261,6 +260,12 @@ class SessionState {
   ///  abl_link_commit... functions to capture snapshots of the current link state and pass
   ///  changes to the link session.
   SessionState() : _sessionState = _bindings.abl_link_create_session_state();
+
+  /// Returns true if the session_state C++ Object has been disposed of in memory with [destroy]. A new instance can be created by
+  /// instancing another [SessionState]. Once destroed, this Object can be overwritten or left to be cleaned up by the Garbage Collector when it leaves the current scope.
+  bool isDestroyed() {
+    return _sessionState == null ? true : false;
+  }
 
   /// Delete a session_state instance.
   ///
