@@ -3,14 +3,19 @@
 # the plugin to fail to compile for some customers of the plugin.
 cmake_minimum_required(VERSION 3.10)
 
-project(f_link_library VERSION 0.0.1 LANGUAGES C)
+# Build a library that includes the official C-Extension as a shared library called 'f_link'
+project(link-with-c-extension)
 
-add_library(f_link SHARED
-  "f_link.c"
-)
+add_library(f_link SHARED ./link/extensions/abl_link/src/abl_link.cpp ./link/extensions/abl_link/include/abl_link.h)
 
+include(./link/AbletonLinkConfig.cmake)
+include(./link/extensions/abl_link/abl_link.cmake)
+
+target_link_libraries(f_link abl_link)
+
+# not sure about this apple specific public_header ?!
 set_target_properties(f_link PROPERTIES
-  PUBLIC_HEADER f_link.h
+  PUBLIC_HEADER lib_abl_link.h
   OUTPUT_NAME "f_link"
 )
 

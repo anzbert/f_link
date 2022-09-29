@@ -8,6 +8,9 @@ cmake_minimum_required(VERSION 3.14)
 set(PROJECT_NAME "f_link")
 project(${PROJECT_NAME} LANGUAGES CXX)
 
+# Make symbols discoverable when compiled on windows
+set (CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS 1) 
+
 # Invoke the build for native code shared with the other target platforms.
 # This can be changed to accomodate different builds.
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../src" "${CMAKE_CURRENT_BINARY_DIR}/shared")
@@ -21,3 +24,5 @@ set(f_link_bundled_libraries
   $<TARGET_FILE:f_link>
   PARENT_SCOPE
 )
+
+

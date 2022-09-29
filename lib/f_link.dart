@@ -1,6 +1,18 @@
 import 'dart:ffi';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'f_link_bindings_generated.dart';
+
+// ///////////////////////////////////////////////////////////////////////////
+// UTILS:
+
+/// Prints only in debug builds
+logd(dynamic text) {
+  if (kDebugMode) print(text.toString());
+}
+
+// ///////////////////////////////////////////////////////////////////////////
+// IMPORT LIB AND BINDINGS:
 
 const String _libName = 'f_link';
 
@@ -20,6 +32,9 @@ final DynamicLibrary _dylib = () {
 
 /// The bindings to the native functions in [_dylib].
 final FLinkBindings _bindings = FLinkBindings(_dylib);
+
+// ///////////////////////////////////////////////////////////////////////////
+// WRAPPER:
 
 /// The representation of an abl_link instance.
 class AblLink {
