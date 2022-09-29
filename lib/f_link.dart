@@ -14,13 +14,13 @@ logd(dynamic text) {
 // ///////////////////////////////////////////////////////////////////////////
 // IMPORT LIB AND BINDINGS:
 
-const String _libName = 'f_link';
+const String _libName = 'abl_link';
 
 /// The dynamic library in which the symbols for [FLinkBindings] can be found.
 final DynamicLibrary _dylib = () {
-  if (Platform.isMacOS || Platform.isIOS) {
-    return DynamicLibrary.open('$_libName.framework/$_libName');
-  }
+  // if (Platform.isMacOS || Platform.isIOS) {
+  //   return DynamicLibrary.open('$_libName.framework/$_libName');
+  // }
   if (Platform.isLinux) {
     return DynamicLibrary.open('lib$_libName.so');
   }

@@ -5,21 +5,22 @@
 # the plugin to fail to compile for some customers of the plugin.
 cmake_minimum_required(VERSION 3.10)
 
-# Build a library that includes the official C-Extension as a shared library called 'f_link'
-project(f_link_abl_link_library)
-set (LINK_DIR ./link)
+# Build a library that includes the official C-Extension as a shared library called 'abl_link'
+project(abl_link_library)
+set (LINK_DIR ${CMAKE_CURRENT_LIST_DIR}/link)
 
-add_library(f_link SHARED ${LINK_DIR}/extensions/abl_link/src/abl_link.cpp ${LINK_DIR}/extensions/abl_link/include/abl_link.h)
-
+# For abl_link:
+add_library(abl_link SHARED ${LINK_DIR}/extensions/abl_link/src/abl_link.cpp ${LINK_DIR}/extensions/abl_link/include/abl_link.h)
 include(${LINK_DIR}/AbletonLinkConfig.cmake)
-include(${LINK_DIR}/extensions/abl_link/abl_link.cmake)
+target_include_directories(abl_link PUBLIC ${LINK_DIR}/extensions/abl_link/include)
+set_property(TARGET abl_link PROPERTY C_STANDARD 11)
+target_link_libraries(abl_link Ableton::Link)
 
-target_link_libraries(f_link abl_link)
+# Flutter specific:
+target_compile_definitions(abl_link PUBLIC DART_SHARED_LIB)
 
 # not sure about this apple specific public_header ?!
-set_target_properties(f_link PROPERTIES
-  PUBLIC_HEADER f_link.h
-  OUTPUT_NAME "f_link"
+set_target_properties(abl_link PROPERTIES
+  PUBLIC_HEADER abl_link.h
+  OUTPUT_NAME "abl_link"
 )
-
-target_compile_definitions(f_link PUBLIC DART_SHARED_LIB)

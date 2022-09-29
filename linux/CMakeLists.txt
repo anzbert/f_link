@@ -17,6 +17,6 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../src" "${CMAKE_CURRENT_BINARY_DI
 set(f_link_bundled_libraries
   # Defined in ../src/CMakeLists.txt.
   # This can be changed to accomodate different builds.
-  $<TARGET_FILE:f_link>
+  $<TARGET_FILE:abl_link>
   PARENT_SCOPE
 )
