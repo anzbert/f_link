@@ -1,6 +1,6 @@
 // The Android Gradle Plugin builds the native code with the Android NDK.
 
-group 'com.example.f_link'
+group 'io.anzio.f_link'
 version '1.0'
 
 buildscript {
@@ -36,7 +36,7 @@ android {
     // Invoke the shared CMake build with the Android Gradle Plugin.
     externalNativeBuild {
         cmake {
-            path "../src/CMakeLists.txt"
+            path "./CMakeLists.txt"
 
             // The default CMake version for the Android Gradle Plugin is 3.10.2.
             // https://developer.android.com/studio/projects/install-ndk#vanilla_cmake
@@ -54,6 +54,6 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 24
     }
 }

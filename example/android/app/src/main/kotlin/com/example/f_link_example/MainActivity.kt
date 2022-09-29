@@ -1,4 +1,4 @@
-package com.example.f_link_example
+package io.anzio.f_link_example
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -21,8 +21,11 @@ final DynamicLibrary _dylib = () {
   if (Platform.isMacOS || Platform.isIOS) {
     return DynamicLibrary.open('$_libName.framework/$_libName');
   }
-  if (Platform.isAndroid || Platform.isLinux) {
+  if (Platform.isLinux) {
     return DynamicLibrary.open('lib$_libName.so');
+  }
+  if (Platform.isAndroid) {
+    return DynamicLibrary.open('libabl_link.so');
   }
   if (Platform.isWindows) {
     return DynamicLibrary.open('$_libName.dll');
