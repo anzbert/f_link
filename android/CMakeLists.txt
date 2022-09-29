@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(abl_link_for_android)
+# Project-level configuration.
+set(PROJECT_NAME "f_link")
+project(${PROJECT_NAME} LANGUAGES CXX)
+
 set (LINK_DIR ../src/link)
 
 add_library(abl_link SHARED ${LINK_DIR}/extensions/abl_link/src/abl_link.cpp)
