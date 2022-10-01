@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:f_link/f_link.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -67,12 +69,13 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
             if (newVal) {
               {
                 // ref.read(linkProvider).enable(true);
-                AblLink? linko = AblLink.create(120);
+                AblLink linko = AblLink.create(120);
                 linko.enable(true);
                 // linko = null;
-                // sleep(const Duration(seconds: 10));
+                sleep(const Duration(seconds: 10));
                 // linky.enable(true);
               }
+
               print("created");
             } else {
               print("done");

@@ -54,7 +54,7 @@ class AblLink implements Finalizable {
   factory AblLink.create(double bpm) {
     final nativeLink = _bindings.abl_link_create(bpm);
     final ablLink = AblLink._(nativeLink);
-    _finalizer.attach(ablLink, ablLink._link.impl.cast(), detach: ablLink);
+    _finalizer.attach(ablLink, nativeLink.impl, detach: ablLink);
     return ablLink;
   }
 
@@ -149,7 +149,7 @@ class AblLink implements Finalizable {
   ///  session_state should not be created on the audio thread.
   captureAudioSessionState(SessionState sessionState) {
     if (_destroyed) throw StateError('Link Instance has been destroyed.');
-    if (!sessionState.destroyed) {
+    if (!sessionState._destroyed) {
       _bindings.abl_link_capture_audio_session_state(
           _link, sessionState._sessionState);
     }
@@ -167,7 +167,7 @@ class AblLink implements Finalizable {
   ///  scope.
   captureAppSessionState(SessionState sessionState) {
     if (_destroyed) throw StateError('Link Instance has been destroyed.');
-    if (!sessionState.destroyed) {
+    if (!sessionState._destroyed) {
       _bindings.abl_link_capture_app_session_state(
           _link, sessionState._sessionState);
     }
@@ -184,7 +184,7 @@ class AblLink implements Finalizable {
   ///  communicated to other peers in the session.
   commitAudioSessionState(SessionState sessionState) {
     if (_destroyed) throw StateError('Link Instance has been destroyed.');
-    if (!sessionState.destroyed) {
+    if (!sessionState._destroyed) {
       _bindings.abl_link_commit_audio_session_state(
           _link, sessionState._sessionState);
     }
@@ -201,7 +201,7 @@ class AblLink implements Finalizable {
   ///  session.
   commitAppSessionState(SessionState sessionState) {
     if (_destroyed) throw StateError('Link Instance has been destroyed.');
-    if (!sessionState.destroyed) {
+    if (!sessionState._destroyed) {
       _bindings.abl_link_commit_app_session_state(
           _link, sessionState._sessionState);
     }
@@ -281,22 +281,22 @@ class SessionState implements Finalizable {
   factory SessionState.create() {
     final nativeSesh = _bindings.abl_link_create_session_state();
     final sessionState = SessionState._(nativeSesh);
-    _finalizer.attach(sessionState, sessionState._sessionState.impl.cast(),
-        detach: sessionState);
+    _finalizer.attach(sessionState, nativeSesh.impl, detach: sessionState);
     return sessionState;
   }
 
   /// Returns true if the SessionState C++ Object has been disposed of in memory with [destroy].
-  bool get destroyed {
-    return _destroyed;
-  }
+  // bool get destroyed {
+  //   return _destroyed;
+  // }
 
   /// Delete a session_state instance.
   ///
   /// Thread-safe: yes
   ///
   ///  Realtime-safe: no
-  void destroy() {
+  // ignore: unused_element
+  void _destroy() {
     if (!_destroyed) {
       _bindings.abl_link_destroy_session_state(_sessionState);
       _finalizer.detach(this);
