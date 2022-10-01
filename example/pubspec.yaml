@@ -40,7 +40,7 @@ dependencies:
     # the parent directory to use the current plugin's version.
     path: ../
 
-  flutter_riverpod: ^2.0.0-dev.9
+  flutter_riverpod: ^2.0.0
 
 dev_dependencies:
   flutter_test:
