@@ -665,6 +665,18 @@ class FLinkBindings {
   late final _abl_link_set_is_playing_and_request_beat_at_time =
       _abl_link_set_is_playing_and_request_beat_at_timePtr.asFunction<
           void Function(abl_link_session_state, bool, int, double, double)>();
+
+  late final addresses = _SymbolAddresses(this);
+}
+
+class _SymbolAddresses {
+  final FLinkBindings _library;
+  _SymbolAddresses(this._library);
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(abl_link)>>
+      get abl_link_destroy => _library._abl_link_destroyPtr;
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(abl_link_session_state)>>
+      get abl_link_destroy_session_state =>
+          _library._abl_link_destroy_session_statePtr;
 }
 
 /// ! @brief The representation of an abl_link instance

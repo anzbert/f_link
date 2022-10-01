@@ -1,8 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:f_link/f_link.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// final linkProvider = Provider((_) {
+//   return AblLink.create(120.0);
+// });
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -17,30 +24,31 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  ConsumerState<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  late AblLink link;
+class _MyHomePageState extends ConsumerState<MyHomePage> {
+  // late AblLink? link;
+  bool linkEnabled = false;
 
   @override
   void initState() {
     super.initState();
 
-    link = AblLink(120.0);
-    link.enable(true);
+    // link = AblLink.create(120.0);
+    // link.enable(true);
   }
 
   @override
   void dispose() {
-    link.enable(false);
-    link.destroy();
+    // link.enable(false);
+    // link.destroy();
 
     super.dispose();
   }
@@ -51,9 +59,36 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: const Center(
-        child: Text(
-          'yoyoyo',
+      body: Center(
+        child: Switch(
+          value: linkEnabled,
+          onChanged: (bool newVal) {
+            setState(() {
+              linkEnabled = newVal;
+            });
+            if (newVal) {
+              {
+                // ref.read(linkProvider).enable(true);
+                const AblLink? linko = AblLink.create(120);
+                linko.enable(true);
+                // linko = null;
+                // sleep(const Duration(seconds: 10));
+                // linky.enable(true);
+              }
+              print("created");
+            } else {
+              print("done");
+              // ref.read(linkProvider).enable(false);
+              // link!.enable(false);
+              // link!.destroy();
+
+              // link = null;
+
+              // link = null;
+
+              // link.enable(false);
+            }
+          },
         ),
       ),
     );

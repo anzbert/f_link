@@ -20,3 +20,7 @@ comments:
 globals:
   include:
     - abl_link.*
+functions:
+  symbol-address:
+    include:
+      - abl_link_destroy.*

@@ -37,35 +37,31 @@ final FLinkBindings _bindings = FLinkBindings(_dylib);
 // WRAPPER:
 
 /// The representation of an abl_link instance.
-class AblLink {
-  abl_link? _link;
+class AblLink implements Finalizable {
+  final abl_link _link;
+  bool _destroyed = false;
+
+  static final _finalizer =
+      NativeFinalizer(_bindings.addresses.abl_link_destroy.cast());
+
+  AblLink._(this._link);
 
   ///  Construct a new abl_link instance with an initial tempo.
   ///
   ///  Thread-safe: yes
   ///
   ///  Realtime-safe: no
-  AblLink(double bpm) : _link = _bindings.abl_link_create(bpm);
-
-  /// Returns true if the Link Object has been disposed of in memory with [destroy]. A new instance can be created by
-  /// instancing another [AblLink]. Once destroyed, this Object can be overwritten or left to be cleaned up by the Garbage Collector when it leaves the current scope.
-  bool isDestroyed() {
-    return _link == null ? true : false;
+  factory AblLink.create(double bpm) {
+    final nativeLink = _bindings.abl_link_create(bpm);
+    final ablLink = AblLink._(nativeLink);
+    _finalizer.attach(ablLink, ablLink._link.impl.cast(), detach: ablLink);
+    return ablLink;
   }
 
-  // ///  Construct a new abl_link instance with an initial tempo within this instance of AblLink.
-  // ///
-  // ///  Thread-safe: yes
-  // ///
-  // ///  Realtime-safe: no
-  // void create(double bpm) {
-  //   if (_link == null) {
-  //     _link = _bindings.abl_link_create(bpm);
-  //   } else {
-  //     _bindings.abl_link_destroy(_link!);
-  //     _link = _bindings.abl_link_create(bpm);
-  //   }
-  // }
+  /// Returns true if the Link C++ Object has been disposed of in memory with [destroy].
+  bool get destroyed {
+    return _destroyed;
+  }
 
   /// Delete an abl_link instance.
   ///
@@ -73,9 +69,11 @@ class AblLink {
   ///
   /// Realtime-safe: no
   void destroy() {
-    if (_link != null) {
-      _bindings.abl_link_destroy(_link!);
-      _link = null;
+    if (!_destroyed) {
+      enable(false);
+      _bindings.abl_link_destroy(_link);
+      _finalizer.detach(this);
+      _destroyed = true;
     }
   }
 
@@ -85,7 +83,8 @@ class AblLink {
   ///
   ///  Realtime-safe: yes
   bool isEnabled() {
-    return _link == null ? false : _bindings.abl_link_is_enabled(_link!);
+    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+    return _bindings.abl_link_is_enabled(_link);
   }
 
   ///  Enable/disable Link.
@@ -94,7 +93,8 @@ class AblLink {
   ///
   ///  Realtime-safe: no
   void enable(bool enable) {
-    if (_link != null) _bindings.abl_link_enable(_link!, enable);
+    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+    _bindings.abl_link_enable(_link, enable);
   }
 
   ///  Is start/stop synchronization enabled?
@@ -103,9 +103,8 @@ class AblLink {
   ///
   ///  Realtime-safe: no
   bool isStartStopSyncEnabled() {
-    return _link == null
-        ? false
-        : _bindings.abl_link_is_start_stop_sync_enabled(_link!);
+    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+    return _bindings.abl_link_is_start_stop_sync_enabled(_link);
   }
 
   ///  Enable start/stop synchronization.
@@ -114,9 +113,8 @@ class AblLink {
   ///
   ///  Realtime-safe: no
   void enableStartStopSync(bool enabled) {
-    if (_link != null) {
-      _bindings.abl_link_enable_start_stop_sync(_link!, enabled);
-    }
+    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+    _bindings.abl_link_enable_start_stop_sync(_link, enabled);
   }
 
   ///  How many peers are currently connected in a Link session?
@@ -125,7 +123,8 @@ class AblLink {
   ///
   ///  Realtime-safe: yes
   int numPeers() {
-    return _link == null ? 0 : _bindings.abl_link_num_peers(_link!);
+    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+    return _bindings.abl_link_num_peers(_link);
   }
 
   /// Get the current link clock time in microseconds.
@@ -134,7 +133,8 @@ class AblLink {
   ///
   ///  Realtime-safe: yes
   int clockMicros() {
-    return _link == null ? 0 : _bindings.abl_link_clock_micros(_link!);
+    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+    return _bindings.abl_link_clock_micros(_link);
   }
 
   ///  Capture the current Link Session State from the audio thread.
@@ -148,9 +148,10 @@ class AblLink {
   ///  of the current Link Session State, so it should be used in a local scope. The
   ///  session_state should not be created on the audio thread.
   captureAudioSessionState(SessionState sessionState) {
-    if (_link != null && sessionState._sessionState != null) {
+    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+    if (!sessionState.destroyed) {
       _bindings.abl_link_capture_audio_session_state(
-          _link!, sessionState._sessionState!);
+          _link, sessionState._sessionState);
     }
   }
 
@@ -165,9 +166,10 @@ class AblLink {
   ///  contains a snapshot of the current Link state, so it should be used in a local
   ///  scope.
   captureAppSessionState(SessionState sessionState) {
-    if (_link != null && sessionState._sessionState != null) {
+    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+    if (!sessionState.destroyed) {
       _bindings.abl_link_capture_app_session_state(
-          _link!, sessionState._sessionState!);
+          _link, sessionState._sessionState);
     }
   }
 
@@ -181,9 +183,10 @@ class AblLink {
   ///  session_state will replace the current Link state. Modifications will be
   ///  communicated to other peers in the session.
   commitAudioSessionState(SessionState sessionState) {
-    if (_link != null && sessionState._sessionState != null) {
+    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+    if (!sessionState.destroyed) {
       _bindings.abl_link_commit_audio_session_state(
-          _link!, sessionState._sessionState!);
+          _link, sessionState._sessionState);
     }
   }
 
@@ -197,9 +200,10 @@ class AblLink {
   ///  Modifications of the Session State will be communicated to other peers in the
   ///  session.
   commitAppSessionState(SessionState sessionState) {
-    if (_link != null && sessionState._sessionState != null) {
+    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+    if (!sessionState.destroyed) {
       _bindings.abl_link_commit_app_session_state(
-          _link!, sessionState._sessionState!);
+          _link, sessionState._sessionState);
     }
   }
 
@@ -211,7 +215,10 @@ class AblLink {
   ///  Realtime-safe: no
   ///
   ///  The callback is invoked on a Link-managed thread.
-  _setNumPeersCallback(Function callback) {}
+  // ignore: unused_element
+  _setNumPeersCallback(Function callback) {
+    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+  }
 
   ///  Register a callback to be notified when the session tempo changes.
   ///
@@ -220,7 +227,10 @@ class AblLink {
   ///  Realtime-safe: no
   ///
   ///  The callback is invoked on a Link-managed thread.
-  _setTempoCallback(Function callback) {}
+  // ignore: unused_element
+  _setTempoCallback(Function callback) {
+    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+  }
 
   ///  Register a callback to be notified when the state of start/stop isPlaying changes.
   ///
@@ -229,7 +239,10 @@ class AblLink {
   ///  Realtime-safe: no
   ///
   ///  The callback is invoked on a Link-managed thread.
-  _setStartStopCallback(Function callback) {}
+  // ignore: unused_element
+  _setStartStopCallback(Function callback) {
+    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+  }
 }
 
 ///  The representation of the current local state of a client in a Link Session.
@@ -247,8 +260,14 @@ class AblLink {
 ///  This means that the current local start/stop state persists when
 ///  joining or leaving a Link session. After joining a Link session
 ///  start/stop change requests will be communicated to all connected peers.
-class SessionState {
-  abl_link_session_state? _sessionState;
+class SessionState implements Finalizable {
+  final abl_link_session_state _sessionState;
+  bool _destroyed = false;
+
+  static final _finalizer = NativeFinalizer(
+      _bindings.addresses.abl_link_destroy_session_state.cast());
+
+  SessionState._(this._sessionState);
 
   /// Create a new session_state instance.
   ///
@@ -259,23 +278,29 @@ class SessionState {
   ///  The session_state is to be used with the abl_link_capture... and
   ///  abl_link_commit... functions to capture snapshots of the current link state and pass
   ///  changes to the link session.
-  SessionState() : _sessionState = _bindings.abl_link_create_session_state();
+  factory SessionState.create() {
+    final nativeSesh = _bindings.abl_link_create_session_state();
+    final sessionState = SessionState._(nativeSesh);
+    _finalizer.attach(sessionState, sessionState._sessionState.impl.cast(),
+        detach: sessionState);
+    return sessionState;
+  }
 
-  /// Returns true if the session_state C++ Object has been disposed of in memory with [destroy]. A new instance can be created by
-  /// instancing another [SessionState]. Once destroed, this Object can be overwritten or left to be cleaned up by the Garbage Collector when it leaves the current scope.
-  bool isDestroyed() {
-    return _sessionState == null ? true : false;
+  /// Returns true if the SessionState C++ Object has been disposed of in memory with [destroy].
+  bool get destroyed {
+    return _destroyed;
   }
 
   /// Delete a session_state instance.
   ///
-  ///  Thread-safe: yes
+  /// Thread-safe: yes
   ///
   ///  Realtime-safe: no
-  void destroySessionState() {
-    if (_sessionState != null) {
-      _bindings.abl_link_destroy_session_state(_sessionState!);
-      _sessionState = null;
+  void destroy() {
+    if (!_destroyed) {
+      _bindings.abl_link_destroy_session_state(_sessionState);
+      _finalizer.detach(this);
+      _destroyed = true;
     }
   }
 
@@ -285,16 +310,14 @@ class SessionState {
   ///  time progress will not necessarily match this tempo exactly because of clock drift
   ///  compensation.
   double tempo() {
-    return _sessionState == null
-        ? 0.0
-        : _bindings.abl_link_tempo(_sessionState!);
+    if (_destroyed) throw StateError('SessionState Instance destroyed.');
+    return _bindings.abl_link_tempo(_sessionState);
   }
 
   ///  Set the timeline tempo to the given bpm value, taking effect at the given time.
   void setTempo(double bpm, int atTime) {
-    if (_sessionState != null) {
-      _bindings.abl_link_set_tempo(_sessionState!, bpm, atTime);
-    }
+    if (_destroyed) throw StateError('SessionState Instance destroyed.');
+    _bindings.abl_link_set_tempo(_sessionState, bpm, atTime);
   }
 
   ///  Get the beat value corresponding to the given time for the given quantum.
@@ -304,9 +327,8 @@ class SessionState {
   ///  session peers. For non-negative beat values, the following property holds:
   ///  ```fmod(beatAtTime(t, q), q) == phaseAtTime(t, q)```
   double beatAtTime(int time, double quantum) {
-    return _sessionState == null
-        ? 0.0
-        : _bindings.abl_link_beat_at_time(_sessionState!, time, quantum);
+    if (_destroyed) throw StateError('SessionState Instance destroyed.');
+    return _bindings.abl_link_beat_at_time(_sessionState, time, quantum);
   }
 
   /// Get the session phase at the given time for the given quantum.
@@ -316,9 +338,8 @@ class SessionState {
   ///  if the client application is only interested in the phase and not the beat
   ///  magnitude. Also, unlike fmod, it handles negative beat values correctly.
   double phaseAtTime(int time, double quantum) {
-    return _sessionState == null
-        ? 0.0
-        : _bindings.abl_link_phase_at_time(_sessionState!, time, quantum);
+    if (_destroyed) throw StateError('SessionState Instance destroyed.');
+    return _bindings.abl_link_phase_at_time(_sessionState, time, quantum);
   }
 
   ///  Get the time at which the given beat occurs for the given quantum.
@@ -326,9 +347,8 @@ class SessionState {
   ///   The inverse of beatAtTime, assuming a constant tempo.
   ///  ```beatAtTime(timeAtBeat(b, q), q) === b```
   int timeAtBeat(double beat, double quantum) {
-    return _sessionState == null
-        ? 0
-        : _bindings.abl_link_time_at_beat(_sessionState!, beat, quantum);
+    if (_destroyed) throw StateError('SessionState Instance destroyed.');
+    return _bindings.abl_link_time_at_beat(_sessionState, beat, quantum);
   }
 
   /// Attempt to map the given beat to the given time in the context of the given quantum.
@@ -353,10 +373,8 @@ class SessionState {
   ///  the session. The client application only needs to invoke this function to achieve
   ///  this behavior and should not need to explicitly check the number of peers.
   void requestBeatAtTime(double beat, int time, double quantum) {
-    if (_sessionState != null) {
-      _bindings.abl_link_request_beat_at_time(
-          _sessionState!, beat, time, quantum);
-    }
+    if (_destroyed) throw StateError('SessionState Instance destroyed.');
+    _bindings.abl_link_request_beat_at_time(_sessionState, beat, time, quantum);
   }
 
   /// Rudely re-map the beat/time relationship for all peers in a session.
@@ -375,50 +393,43 @@ class SessionState {
   ///  such a feature so that users do not accidentally disrupt Link sessions that they may
   ///  join.
   void forceBeatAtTime(double beat, int time, double quantum) {
-    if (_sessionState != null) {
-      _bindings.abl_link_force_beat_at_time(
-          _sessionState!, beat, time, quantum);
-    }
+    if (_destroyed) throw StateError('SessionState Instance destroyed.');
+    _bindings.abl_link_force_beat_at_time(_sessionState, beat, time, quantum);
   }
 
   /// Set if transport should be playing or stopped, taking effect at the given time.
   void setIsPlaying(bool isPlaying, int time) {
-    if (_sessionState != null) {
-      _bindings.abl_link_set_is_playing(_sessionState!, isPlaying, time);
-    }
+    if (_destroyed) throw StateError('SessionState Instance destroyed.');
+    _bindings.abl_link_set_is_playing(_sessionState, isPlaying, time);
   }
 
   /// Is transport playing?
   bool isPlaying() {
-    return _sessionState == null
-        ? false
-        : _bindings.abl_link_is_playing(_sessionState!);
+    if (_destroyed) throw StateError('SessionState Instance destroyed.');
+    return _bindings.abl_link_is_playing(_sessionState);
   }
 
   /// Get the time at which a transport start/stop occurs
   int timeForisPlaying() {
-    return _sessionState == null
-        ? 0
-        : _bindings.abl_link_time_for_is_playing(_sessionState!);
+    if (_destroyed) throw StateError('SessionState Instance destroyed.');
+    return _bindings.abl_link_time_for_is_playing(_sessionState);
   }
 
   /// Convenience function to attempt to map the given beat to the time
   /// when transport is starting to play in context of the given quantum.
   /// This function evaluates to a no-op if abl_link_is_playing equals false.
   void requestBeatAtStartPlayingTime(double beat, double quantum) {
-    if (_sessionState != null) {
-      _bindings.abl_link_request_beat_at_start_playing_time(
-          _sessionState!, beat, quantum);
-    }
+    if (_destroyed) throw StateError('SessionState Instance destroyed.');
+    _bindings.abl_link_request_beat_at_start_playing_time(
+        _sessionState, beat, quantum);
   }
 
   /// Convenience function to start or stop transport at a given time and attempt
   /// to map the given beat to this time in context of the given quantum.
   void setIsPlayingAndRequestBeatAtTime(
       bool isPlaying, int time, double beat, double quantum) {
-    if (_sessionState != null) {
-      _bindings.abl_link_set_is_playing_and_request_beat_at_time(
-          _sessionState!, isPlaying, time, beat, quantum);
-    }
+    if (_destroyed) throw StateError('SessionState Instance destroyed.');
+    _bindings.abl_link_set_is_playing_and_request_beat_at_time(
+        _sessionState, isPlaying, time, beat, quantum);
   }
 }
