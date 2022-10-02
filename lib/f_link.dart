@@ -58,24 +58,24 @@ class AblLink implements Finalizable {
     return ablLink;
   }
 
-  /// Returns true if the Link C++ Object has been disposed of in memory with [destroy].
-  bool get destroyed {
-    return _destroyed;
-  }
+  // /// Returns true if the Link C++ Object has been disposed of in memory with [destroy].
+  // bool get destroyed {
+  //   return _destroyed;
+  // }
 
-  /// Delete an abl_link instance.
-  ///
-  /// Thread-safe: yes
-  ///
-  /// Realtime-safe: no
-  void destroy() {
-    if (!_destroyed) {
-      enable(false);
-      _bindings.abl_link_destroy(_link);
-      _finalizer.detach(this);
-      _destroyed = true;
-    }
-  }
+  // /// Delete an abl_link instance.
+  // ///
+  // /// Thread-safe: yes
+  // ///
+  // /// Realtime-safe: no
+  // void destroy() {
+  //   if (!_destroyed) {
+  //     enable(false);
+  //     _bindings.abl_link_destroy(_link);
+  //     _finalizer.detach(this);
+  //     _destroyed = true;
+  //   }
+  // }
 
   ///  Is Link currently enabled?
   ///
