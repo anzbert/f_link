@@ -1,3 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="io.anzio.f_link">
-  <uses-permission android:name="android.permission.INTERNET" />
-</manifest>
