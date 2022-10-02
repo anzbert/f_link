@@ -1,0 +1,3 @@
+[submodule "src/link"]
+	path = src/link
+	url = https://github.com/ableton/link
