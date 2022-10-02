@@ -4,11 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'f_link_bindings_generated.dart';
 
 // ///////////////////////////////////////////////////////////////////////////
-// UTILS:
+// DEV UTILS:
 
 /// Prints only in debug builds
-logd(dynamic text) {
-  if (kDebugMode) print(text.toString());
+// ignore: unused_element
+_logd(dynamic object) {
+  if (kDebugMode) print(object.toString());
 }
 
 // ///////////////////////////////////////////////////////////////////////////
