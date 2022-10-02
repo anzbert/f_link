@@ -28,7 +28,8 @@ final DynamicLibrary _dylib = () {
   if (Platform.isWindows) {
     return DynamicLibrary.open('$_libName.dll');
   }
-  throw UnsupportedError('Unknown platform: ${Platform.operatingSystem}');
+  throw UnsupportedError(
+      'f_link Error -> Unsupported platform: ${Platform.operatingSystem}');
 }();
 
 /// The bindings to the native functions in [_dylib].
