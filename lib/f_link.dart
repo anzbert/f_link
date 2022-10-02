@@ -238,7 +238,10 @@ class AblLink implements Finalizable {
   ///  The callback is invoked on a Link-managed thread.
   // ignore: unused_element
   _setNumPeersCallback(Function callback) {
-    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+    // //////////////////////////
+    // callbacks not implemented yet. could only safely be done with native ports at this point.
+    // see: https://github.com/dart-lang/sdk/issues/37022
+    // //////////////////////////
   }
 
   ///  Register a callback to be notified when the session tempo changes.
@@ -250,7 +253,10 @@ class AblLink implements Finalizable {
   ///  The callback is invoked on a Link-managed thread.
   // ignore: unused_element
   _setTempoCallback(Function callback) {
-    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+    // //////////////////////////
+    // callbacks not implemented yet. could only safely be done with native ports at this point.
+    // see: https://github.com/dart-lang/sdk/issues/37022
+    // //////////////////////////
   }
 
   ///  Register a callback to be notified when the state of start/stop isPlaying changes.
@@ -262,7 +268,10 @@ class AblLink implements Finalizable {
   ///  The callback is invoked on a Link-managed thread.
   // ignore: unused_element
   _setStartStopCallback(Function callback) {
-    if (_destroyed) throw StateError('Link Instance has been destroyed.');
+    // //////////////////////////
+    // callbacks not implemented yet. could only safely be done with native ports at this point.
+    // see: https://github.com/dart-lang/sdk/issues/37022
+    // //////////////////////////
   }
 }
 
