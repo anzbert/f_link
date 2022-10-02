@@ -1,14 +1,6 @@
+import 'package:f_link_example/options.dart';
 import 'package:flutter/material.dart';
-import 'package:f_link/f_link.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-final linkProvider = Provider((_) => AblLink.create(120.0));
-
-final test = Provider((ref) {
-  ref.listen(linkProvider, (previous, next) {
-    print("yoyoy");
-  });
-});
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,15 +37,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Switch(
-          value: linkEnabled,
-          onChanged: (bool newVal) {
-            setState(() => linkEnabled = newVal);
-            ref.read(linkProvider).enable(newVal);
-          },
-        ),
-      ),
+      body: const OptionsMenu(),
     );
   }
 }

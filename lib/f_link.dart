@@ -147,12 +147,23 @@ class AblLink implements Finalizable {
   ///  accessed from any other threads. After capturing the session_state holds a snapshot
   ///  of the current Link Session State, so it should be used in a local scope. The
   ///  session_state should not be created on the audio thread.
-  captureAudioSessionState(SessionState sessionState) {
+  captureAudioSessionState([SessionState? existingSessionState]) {
     if (_destroyed) throw StateError('Link Instance has been destroyed.');
-    if (!sessionState._destroyed) {
+
+    if (existingSessionState == null) {
+      final state = SessionState.create();
       _bindings.abl_link_capture_audio_session_state(
-          _link, sessionState._sessionState);
+          _link, state._sessionState);
+      return state;
     }
+
+    if (existingSessionState._destroyed) {
+      throw StateError('SessionState Instance has been destroyed.');
+    }
+
+    _bindings.abl_link_capture_audio_session_state(
+        _link, existingSessionState._sessionState);
+    return existingSessionState;
   }
 
   /// Capture the current Link Session State from an application thread.
@@ -165,12 +176,22 @@ class AblLink implements Finalizable {
   ///  application thread (other than the audio thread). After capturing the session_state
   ///  contains a snapshot of the current Link state, so it should be used in a local
   ///  scope.
-  captureAppSessionState(SessionState sessionState) {
+  SessionState captureAppSessionState([SessionState? existingSessionState]) {
     if (_destroyed) throw StateError('Link Instance has been destroyed.');
-    if (!sessionState._destroyed) {
-      _bindings.abl_link_capture_app_session_state(
-          _link, sessionState._sessionState);
+
+    if (existingSessionState == null) {
+      final state = SessionState.create();
+      _bindings.abl_link_capture_app_session_state(_link, state._sessionState);
+      return state;
     }
+
+    if (existingSessionState._destroyed) {
+      throw StateError('SessionState Instance has been destroyed.');
+    }
+
+    _bindings.abl_link_capture_app_session_state(
+        _link, existingSessionState._sessionState);
+    return existingSessionState;
   }
 
   ///  Commit the given Session State to the Link session from the audio thread.
