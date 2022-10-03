@@ -33,7 +33,7 @@ class _OptionsMenuState extends ConsumerState<OptionsMenu> {
     return ListView(
       children: [
         ListTile(
-          title: const Text("Enable Link"),
+          title: const Text("Ableton Link enabled"),
           trailing: Switch(
             value: link.isEnabled(),
             onChanged: (bool newVal) {
@@ -69,31 +69,33 @@ class _OptionsMenuState extends ConsumerState<OptionsMenu> {
         ),
         IntCounterTile(
           label: "Quantum",
-          readValue: ref.watch(quantum),
+          readValue: ref.watch(quantumPrv),
           setValue: (int x) {
             if (x >= 1 && x <= 16) {
-              ref.read(quantum.notifier).state = x;
+              ref.read(quantumPrv.notifier).state = x;
             }
           },
         ),
         ListTile(
           title: const Text("Playing"),
-          trailing: isPlaying
-              ? const Icon(
-                  Icons.play_arrow,
-                  color: Colors.green,
-                )
-              : const Icon(
-                  Icons.stop,
-                  color: Colors.red,
-                ),
+          trailing: Text(
+            isPlaying.toString(),
+          ),
         ),
         Center(
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               enableFeedback: false, // mute click sound
             ),
-            child: Text(isPlaying ? "Stop" : "Start"),
+            child: !isPlaying
+                ? const Icon(
+                    Icons.play_arrow,
+                    color: Colors.green,
+                  )
+                : const Icon(
+                    Icons.stop,
+                    color: Colors.red,
+                  ),
             onPressed: () {
               SessionState state = link.captureAppSessionState();
               state.setIsPlaying(!state.isPlaying(), link.clockMicros());
@@ -106,6 +108,18 @@ class _OptionsMenuState extends ConsumerState<OptionsMenu> {
   }
 }
 
+class Metronome extends ConsumerWidget {
+  const Metronome({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final int quantum = ref.watch(quantumPrv);
+    final double phase = ref.watch(phasePrv);
+
+    return Container();
+  }
+}
+
 class PhaseListTile extends ConsumerWidget {
   const PhaseListTile({
     Key? key,
@@ -114,18 +128,9 @@ class PhaseListTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Builder(builder: (context) {
-      final double phase = ref.watch(
-        appSessStream.select((value) =>
-            value.valueOrNull?.phaseAtTime(
-              ref.read(linkPrv).clockMicros(),
-              ref.watch(quantum).toDouble(),
-            ) ??
-            0),
-      );
-
       return ListTile(
         title: const Text("Phase"),
-        trailing: Text(phase.toStringAsFixed(2)),
+        trailing: Text(ref.watch(phasePrv).toStringAsFixed(2)),
       );
     });
   }

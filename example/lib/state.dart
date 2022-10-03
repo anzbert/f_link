@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'package:f_link/f_link.dart';
+import 'package:f_link_example/utils.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final linkPrv = Provider.autoDispose((_) => AblLink.create(120.0));
+final linkPrv = Provider<AblLink>((ref) {
+  ref.onDispose(() => logd("Disposing link"));
+  return AblLink.create(120.0);
+});
 
-final quantum = StateProvider<int>((ref) => 4);
-
+final quantumPrv = StateProvider<int>((ref) => 4);
 final pollAppState = StateProvider<int>((ref) => 66);
 final pollNumPeers = StateProvider<int>((ref) => 500);
 // final pollAudioState = StateProvider<int>((ref) => 0);
@@ -66,3 +69,13 @@ final numPeersStream = StreamProvider.autoDispose<int>(
 //     }
 //   },
 // );
+
+final phasePrv = Provider.autoDispose<double>((ref) {
+  final sesh = ref.watch(appSessStream).valueOrNull;
+  if (sesh == null) return 0;
+
+  return sesh.phaseAtTime(
+    ref.watch(linkPrv).clockMicros(),
+    ref.watch(quantumPrv).toDouble(),
+  );
+});
