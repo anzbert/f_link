@@ -1,6 +1,7 @@
 import 'package:f_link/f_link.dart';
 import 'package:f_link_example/counter_int.dart';
-import 'package:f_link_example/state.dart';
+import 'package:f_link_example/state_app.dart';
+import 'package:f_link_example/state_link.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,12 +21,12 @@ class _OptionsMenuState extends ConsumerState<OptionsMenu> {
 
     final link = ref.watch(linkPrv); // link will never trigger a rebuild
 
-    final bool isPlaying = ref.watch(appSessStream
+    final bool isPlaying = ref.watch(appStateStream
         .select((value) => value.valueOrNull?.isPlaying() ?? false));
 
     final int tempo = ref
         .watch(
-            appSessStream.select((value) => value.valueOrNull?.tempo() ?? 120))
+            appStateStream.select((value) => value.valueOrNull?.tempo() ?? 120))
         .toInt();
 
     final int numPeers = ref.watch(numPeersStream).valueOrNull ?? 0;
@@ -52,6 +53,7 @@ class _OptionsMenuState extends ConsumerState<OptionsMenu> {
           ),
         ),
         const PhaseListTile(),
+        const Metronome(),
         ListTile(
           title: const Text("Number of Peers"),
           trailing: Text(numPeers.toString()),
@@ -71,7 +73,7 @@ class _OptionsMenuState extends ConsumerState<OptionsMenu> {
           label: "Quantum",
           readValue: ref.watch(quantumPrv),
           setValue: (int x) {
-            if (x >= 1 && x <= 16) {
+            if (x >= 1 && x <= 8) {
               ref.read(quantumPrv.notifier).state = x;
             }
           },
@@ -116,7 +118,20 @@ class Metronome extends ConsumerWidget {
     final int quantum = ref.watch(quantumPrv);
     final double phase = ref.watch(phasePrv);
 
-    return Container();
+    return ListTile(
+      title: const Text("Metronome"),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ...List.generate(quantum, (index) {
+            return Icon(
+              Icons.circle,
+              color: index >= phase.ceil() ? Colors.grey : Colors.green,
+            );
+          }),
+        ],
+      ),
+    );
   }
 }
 

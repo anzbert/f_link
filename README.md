@@ -3,7 +3,7 @@
 f_link is a Flutter wrapper of [abl_link](https://github.com/Ableton/link/tree/master/extensions/abl_link), which
 is a C 11 wrapper made by Ableton for their C++ codebase.
 This library attempts to be unopinionated and plain in
-copying the functionality of abl_link, while providing some high level safeties.
+copying the functionality of abl_link, while providing some high level safeties and conveniences.
 
 [Ableton Link](http://ableton.github.io/link) is a technology that synchronizes musical beat, tempo,
 phase, and start/stop commands across multiple applications running
@@ -19,8 +19,8 @@ others will follow. Anyone can join or leave without disrupting the session.
 - Functions have been implemented as methods on either the `AblLink` or the `SessionState` struct depending on which of the two the original C function uses as a primary parameter and what seemed to be the most intuitive.
 - At this point, handling thread and realtime safety with Audio and App Session States is left up to the user, just like in the original library.
 - Ableton's documentation should mostly still apply to this library, since implementations have been copied as they were.
-- The function documentations have been copied from 'abl_link.h'.
-- Currently, the callbacks have been omitted from the implementation and the user has to poll the current state instead (see Known Issues).
+- The function documentation has been mostly copied from 'abl_link.h'.
+- Currently, callbacks have been omitted from this library (see Known Issues).
 
 ## Known Issues
 
@@ -30,8 +30,8 @@ Flutter uses Cocoapods and Xcode instead of CMake as build system for iOS and Ma
 
 ### Destructors
 
-NativeFinalizers seem to work to destroy AblLink and SessionState Objects when they leave the current scope. Making these objects nullable (like AblLink?) variables seemed to interfere with reliable destruction. More investigations are needed into C++ memory management ,which happens behind the scenes.
+NativeFinalizer should destroy the native objects attached to AblLink and SessionState instances when they leave the current scope and become inaccessible. More investigations are needed into the memory used by C++, to check for memory leaks.
 
 ### Registering callbacks with native code
 
-Callbacks not implemented yet. Native callbacks are difficult to implement into the Dart event loop. Currently they could only safely be done with native ports, which I may attempt at some point. See Issue for more details: https://github.com/dart-lang/sdk/issues/37022
+Callbacks are not implemented yet. Native callbacks are difficult to implement into the Dart event loop. Currently they could only safely be done with native ports, which I may attempt at some point. See this Issue for more details: https://github.com/dart-lang/sdk/issues/37022 . At this point the user has to implement a polling solutions instead of relying on callbacks (see Example).
