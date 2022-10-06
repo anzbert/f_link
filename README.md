@@ -39,3 +39,7 @@ Callbacks are not implemented yet. Native callbacks are difficult to implement i
 ### Example
 
 The example does not have audio yet. Audio probably has to be implemented on a seperate isolate to maintain sync and prevent blocking.
+
+## Feedback
+
+Pull requests and feedback in the discussions section is very welcome!
