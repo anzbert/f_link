@@ -43,3 +43,11 @@ The example does not have audio yet. Audio probably has to be implemented on a s
 ## Feedback
 
 Pull requests and feedback in the discussions section is very welcome!
+
+## License
+
+Ableton Link is dual licensed under GPLv2+ and a proprietary [license](https://github.com/Ableton/link/blob/master/LICENSE.md).
+
+This means that this wrapper is automatically under the GPLv2+ as well. A copy of the license is distributed with the source code.
+
+If you would like to incorporate Link into a proprietary software application, please contact Ableton at <link-devs@ableton.com>.
