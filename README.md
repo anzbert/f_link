@@ -26,12 +26,16 @@ others will follow. Anyone can join or leave without disrupting the session.
 
 ### No iOS and MacOS support yet
 
-Flutter uses Cocoapods and Xcode instead of CMake as build system for iOS and MacOS. Ableton also provides a different SDK for iOS, called [LinkKit](https://github.com/Ableton/LinkKit), which uses a different API to [Link](https://github.com/Ableton/link).
+Flutter uses Cocoapods and Xcode instead of CMake as build system for iOS and MacOS. Ableton also provides a different SDK for iOS, called [LinkKit](https://github.com/Ableton/LinkKit), which uses a different API to [Link](https://github.com/Ableton/link). Potentially, this library can wrap around both LinkKit and Link in the future.
 
 ### Destructors
 
-NativeFinalizer should destroy the native objects attached to AblLink and SessionState instances when they leave the current scope and become inaccessible. More investigations are needed into the memory used by C++, to check for memory leaks.
+NativeFinalizer should reliably destroy the native objects attached to AblLink and SessionState instances when they leave the current scope and become inaccessible. More investigations are needed into the memory used by C++, to check for memory leaks.
 
 ### Registering callbacks with native code
 
 Callbacks are not implemented yet. Native callbacks are difficult to implement into the Dart event loop. Currently they could only safely be done with native ports, which I may attempt at some point. See this Issue for more details: https://github.com/dart-lang/sdk/issues/37022 . At this point the user has to implement a polling solutions instead of relying on callbacks (see Example).
+
+### Example
+
+The example does not have audio yet. Audio probably has to be implemented on a seperate isolate to maintain sync and prevent blocking.
