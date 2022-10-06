@@ -38,7 +38,7 @@ final FLinkBindings _bindings = FLinkBindings(_dylib);
 // ///////////////////////////////////////////////////////////////////////////
 // WRAPPER:
 
-/// The representation of an abl_link instance.
+/// The representation of an [AblLink] instance.
 class AblLink implements Finalizable {
   final abl_link _link;
   bool _destroyed = false;
@@ -48,7 +48,7 @@ class AblLink implements Finalizable {
 
   AblLink._(this._link);
 
-  ///  Construct a new abl_link instance with an initial tempo.
+  ///  Construct a new [AblLink] instance with an initial tempo.
   ///
   ///  Thread-safe: yes
   ///
@@ -60,24 +60,26 @@ class AblLink implements Finalizable {
     return ablLink;
   }
 
-  // /// Returns true if the Link C++ Object has been disposed of in memory with [destroy].
-  // bool get destroyed {
-  //   return _destroyed;
-  // }
+  /// Returns true if the contained [abl_link] C++ Object has been disposed of in memory with [destroy].
+  bool get destroyed {
+    return _destroyed;
+  }
 
-  // /// Delete an abl_link instance.
-  // ///
-  // /// Thread-safe: yes
-  // ///
-  // /// Realtime-safe: no
-  // void destroy() {
-  //   if (!_destroyed) {
-  //     enable(false);
-  //     _bindings.abl_link_destroy(_link);
-  //     _finalizer.detach(this);
-  //     _destroyed = true;
-  //   }
-  // }
+  /// Manually delete the C++ representation of the [abl_link] instance contained in this object.
+  /// Renders this instance unusable. This should not be needed as [NativeFinalizer] cleans up
+  /// the underlying memory automatically when the [AblLink] instance becomes inaccessible.
+  ///
+  /// Thread-safe: yes
+  ///
+  /// Realtime-safe: no
+  void destroy() {
+    if (!_destroyed) {
+      enable(false);
+      _bindings.abl_link_destroy(_link);
+      _finalizer.detach(this);
+      _destroyed = true;
+    }
+  }
 
   ///  Is Link currently enabled?
   ///
@@ -139,16 +141,16 @@ class AblLink implements Finalizable {
     return _bindings.abl_link_clock_micros(_link);
   }
 
-  ///  Capture the current Link Session State from the audio thread.
+  ///  Capture the current Link [SessionState] from the audio thread.
   ///
   ///  Thread-safe: no
   ///
   ///  Realtime-safe: yes
   ///
   ///  This function should ONLY be called in the audio thread and must not be
-  ///  accessed from any other threads. After capturing the session_state holds a snapshot
-  ///  of the current Link Session State, so it should be used in a local scope. The
-  ///  session_state should not be created on the audio thread.
+  ///  accessed from any other threads. After capturing the [SessionState] holds a snapshot
+  ///  of the current Link [SessionState], so it should be used in a local scope. The
+  ///  [SessionState] should not be created on the audio thread.
   captureAudioSessionState([SessionState? existingSessionState]) {
     if (_destroyed) throw StateError('Link Instance has been destroyed.');
 
@@ -168,14 +170,14 @@ class AblLink implements Finalizable {
     return existingSessionState;
   }
 
-  /// Capture the current Link Session State from an application thread.
+  /// Capture the current Link [SessionState] from an application thread.
   ///
   ///  Thread-safe: no
   ///
   ///  Realtime-safe: yes
   ///
-  ///  Provides a mechanism for capturing the Link Session State from an
-  ///  application thread (other than the audio thread). After capturing the session_state
+  ///  Provides a mechanism for capturing the Link [SessionState] from an
+  ///  application thread (other than the audio thread). After capturing the [SessionState]
   ///  contains a snapshot of the current Link state, so it should be used in a local
   ///  scope.
   SessionState captureAppSessionState([SessionState? existingSessionState]) {
@@ -196,14 +198,14 @@ class AblLink implements Finalizable {
     return existingSessionState;
   }
 
-  ///  Commit the given Session State to the Link session from the audio thread.
+  ///  Commit the given [SessionState] to the Link session from the audio thread.
   ///
   ///  Thread-safe: no
   ///
   ///  Realtime-safe: yes
   ///
   ///  This function should ONLY be called in the audio thread. The given
-  ///  session_state will replace the current Link state. Modifications will be
+  ///  [SessionState] will replace the current Link state. Modifications will be
   ///  communicated to other peers in the session.
   commitAudioSessionState(SessionState sessionState) {
     if (_destroyed) throw StateError('Link Instance has been destroyed.');
@@ -213,13 +215,13 @@ class AblLink implements Finalizable {
     }
   }
 
-  ///  Commit the given Session State to the Link session from an application thread.
+  ///  Commit the given [SessionState] to the Link session from an application thread.
   ///
   ///  Thread-safe: yes
   ///
   ///  Realtime-safe: no
   ///
-  ///  The given session_state will replace the current Link Session State.
+  ///  The given [SessionState] will replace the current Link [SessionState].
   ///  Modifications of the Session State will be communicated to other peers in the
   ///  session.
   commitAppSessionState(SessionState sessionState) {
@@ -307,8 +309,8 @@ class SessionState implements Finalizable {
   ///
   ///  Realtime-safe: no
   ///
-  ///  The session_state is to be used with the abl_link_capture... and
-  ///  abl_link_commit... functions to capture snapshots of the current link state and pass
+  ///  The session_state is to be used with the capture... and
+  ///  commit... functions to capture snapshots of the current link state and pass
   ///  changes to the link session.
   factory SessionState.create() {
     final nativeSesh = _bindings.abl_link_create_session_state();
@@ -317,12 +319,14 @@ class SessionState implements Finalizable {
     return sessionState;
   }
 
-  /// Returns true if the SessionState C++ Object has been disposed of in memory with [destroy].
-  // bool get destroyed {
-  //   return _destroyed;
-  // }
+  /// Returns true if the contained [abl_link_session_state] C++ Object has been disposed of in memory with [destroy].
+  bool get destroyed {
+    return _destroyed;
+  }
 
-  /// Delete a session_state instance.
+  /// Manually delete the C++ representation of the [abl_link_session_state] instance contained in this object.
+  /// Renders this instance unusable. This should not be needed as [NativeFinalizer] cleans up
+  /// the underlying memory automatically when the [SessionState] instance becomes inaccessible.
   ///
   /// Thread-safe: yes
   ///
@@ -449,7 +453,7 @@ class SessionState implements Finalizable {
 
   /// Convenience function to attempt to map the given beat to the time
   /// when transport is starting to play in context of the given quantum.
-  /// This function evaluates to a no-op if abl_link_is_playing equals false.
+  /// This function evaluates to a no-op if [isPlaying] equals false.
   void requestBeatAtStartPlayingTime(double beat, double quantum) {
     if (_destroyed) throw StateError('SessionState Instance destroyed.');
     _bindings.abl_link_request_beat_at_start_playing_time(
