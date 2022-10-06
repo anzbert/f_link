@@ -17,8 +17,6 @@ class _OptionsMenuState extends ConsumerState<OptionsMenu> {
 
   @override
   Widget build(BuildContext context) {
-    print("rebuilding outer");
-
     final link = ref.watch(linkPrv); // link will never trigger a rebuild
 
     final bool isPlaying = ref.watch(appStateStream
