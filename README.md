@@ -5,7 +5,7 @@ is a C 11 wrapper made by Ableton for their C++ codebase.
 This library attempts to be unopinionated and plain in
 copying the functionality of abl_link, while providing some high level safeties and conveniences.
 
-[Ableton Link](http://ableton.github.io/link) is a technology that synchronizes musical beat, tempo,
+[Ableton Link](https://ableton.github.io/link) is a technology that synchronizes musical beat, tempo,
 phase, and start/stop commands across multiple applications running
 on one or more devices. Applications on devices connected to a local
 network discover each other automatically and form a musical session
