@@ -15,9 +15,9 @@ others will follow. Anyone can join or leave without disrupting the session.
 
 ## Implementation
 
-- f_link currently wraps around all functions available in ['abl_link.h'](https://github.com/Ableton/link/blob/master/extensions/abl_link/include/abl_link.h) and makes them publicly available, except for the destructors, which are implemented with [NativeFinalizer](https://api.dart.dev/stable/2.18.2/dart-ffi/NativeFinalizer-class.html).
+- f_link currently wraps around all functions available in ['abl_link.h'](https://github.com/Ableton/link/blob/master/extensions/abl_link/include/abl_link.h) and makes them publicly available. The destructors are implemented with [NativeFinalizer](https://api.dart.dev/stable/2.18.2/dart-ffi/NativeFinalizer-class.html), which should make manually destroying instances and freeing memory unnecessary.
 - Functions have been implemented as methods on either the `AblLink` or the `SessionState` struct depending on which of the two the original C function uses as a primary parameter and what seemed to be the most intuitive.
-- At this point, handling thread and realtime safety with Audio and App Session States is left up to the user, just like in the original library.
+- At this point, handling thread and realtime safety with Audio and App SessionStates is left up to the user, just like in the original library.
 - Ableton's documentation should mostly still apply to this library, since implementations have been copied as they were.
 - The function documentation has been mostly copied from 'abl_link.h'.
 - Currently, callbacks have been omitted from this library (see Known Issues).

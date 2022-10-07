@@ -19,7 +19,7 @@ dependencies:
     # the parent directory to use the current plugin's version.
 
   # Used for state management in this example:
-  flutter_riverpod: ^2.0.0
+  flutter_riverpod: ^2.0.2
 
 dev_dependencies:
   flutter_test:
