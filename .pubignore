@@ -1,5 +1,5 @@
 ios/
 macos/
 
-initsubs
-updatesubs
+initsub.sh
+updatesub.sh
