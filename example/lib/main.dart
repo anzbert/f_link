@@ -1,6 +1,7 @@
 // Full example in repository: https://github.com/anzbert/f_link/tree/master/example/lib
 
 import 'package:f_link_example/options.dart';
+import 'package:f_link_example/test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,7 +31,7 @@ class Main extends StatelessWidget {
       appBar: AppBar(
         title: const Text("F_Link Example"),
       ),
-      body: const OptionsMenu(),
+      body: const Test(),
     );
   }
 }
