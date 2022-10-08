@@ -12,9 +12,9 @@ target_link_libraries(abl_link Ableton::Link)
 
 # /// Android specific:
 target_compile_definitions(abl_link PRIVATE ANDROID=1 LINK_PLATFORM_LINUX=1 PD=1 ABL_LINK_OFFSET_MS=23)
-if(CMAKE_SYSTEM_NAME MATCHES "Linux|kFreeBSD|GNU")
-  target_link_libraries(abl_link atomic pthread)
-endif()
+# if(CMAKE_SYSTEM_NAME MATCHES "Linux|kFreeBSD|GNU")
+#   target_link_libraries(abl_link atomic pthread)
+# endif()
 # ///
 
 target_compile_definitions(abl_link PUBLIC DART_SHARED_LIB)
