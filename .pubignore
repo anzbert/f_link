@@ -1,4 +1,4 @@
 macos/
 
-initsub.sh
-updatesub.sh
+subinit.sh
+subupdate.sh
