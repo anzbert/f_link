@@ -17,8 +17,9 @@ A new Flutter FFI plugin project.
   # builds of apps using this FFI plugin. Podspec does not support relative
   # paths, so Classes contains a forwarder C file that relatively imports
   # `../src/*` so that the C sources can be shared among all target platforms.
+  # s.header_mappings_dir = 'Classes/link/extensions/abl_link/include/*'
   s.source           = { :path => '.' }
-  s.source_files     = 'Classes/**/*'
+  s.source_files     = 'Classes/link/extensions/abl_link/src/abl_link.cpp', 'Classes/link/extensions/abl_link/include/**/*', 'Classes/link/include/**/*'
   s.dependency 'FlutterMacOS'
 
   s.platform = :osx, '10.11'
