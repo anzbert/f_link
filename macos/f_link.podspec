@@ -5,24 +5,46 @@
 Pod::Spec.new do |s|
   s.name             = 'f_link'
   s.version          = '0.0.1'
-  s.summary          = 'A new Flutter FFI plugin project.'
+  s.summary          = 'Ableton Link for Flutter.'
   s.description      = <<-DESC
-A new Flutter FFI plugin project.
+  A plugin which wraps the Ableton Link C Extension for Flutter..
                        DESC
   s.homepage         = 'http://example.com'
-  s.license          = { :file => '../LICENSE' }
+  s.license          = { :file => './LICENSE.md', :type => 'GPL2' }
   s.author           = { 'Your Company' => 'email@example.com' }
 
   # This will ensure the source files in Classes/ are included in the native
   # builds of apps using this FFI plugin. Podspec does not support relative
   # paths, so Classes contains a forwarder C file that relatively imports
   # `../src/*` so that the C sources can be shared among all target platforms.
-  # s.header_mappings_dir = 'Classes/link/extensions/abl_link/include/*'
-  s.source           = { :path => '.' }
-  s.source_files     = 'Classes/link/extensions/abl_link/src/abl_link.cpp', 'Classes/link/extensions/abl_link/include/**/*', 'Classes/link/include/**/*'
+ 
   s.dependency 'FlutterMacOS'
 
+  s.source           = { :path => '.' } # local folder (for testing only)
+  # s.source           = { :git => 'https://github.com/ableton/link.git', :commit => '1f12bcb' }
+  s.header_mappings_dir = 'Classes/link'
+#   s.header_dir = 'Classes/link/include'
+#   s.preserve_paths = 'Classes/link'
+  
+  s.pod_target_xcconfig = {
+       'HEADER_SEARCH_PATHS' => ["\"" + __dir__ + "/Classes/link/include\"" , "\"" + __dir__ + "/Classes/link/modules/asio-standalone/asio/include\""]
+   }
+   s.xcconfig = {
+       'HEADER_SEARCH_PATHS' => ["\"${PODS_ROOT}/Classes/link/include\"" , "\"${PODS_ROOT}/Classes/link/modules/asio-standalone/asio/include\""]
+   }
+  
+  s.source_files     = 'Classes/link/extensions/abl_link/src/*.cpp', 'Classes/link/extensions/abl_link/include/*.h', 'Classes/link/include/**/{*.hpp,*.ipp}', 'Classes/link/modules/asio-standalone/asio/include/**/*'
+
+  s.exclude_files =  '*.txt'
+
+  s.public_header_files = 'Classes/link/extensions/include/abl_link.h'
+#   s.private_header_files = 'Classes/link/include/ableton/Link.hpp', 'Classes/link/include/**/{*.hpp,*.ipp}', 
+  s.private_header_files = 'Classes/link/include/**/{*.hpp,*.ipp}', 
+  
+  s.compiler_flags = '-DLINK_PLATFORM_MACOSX=1'
+
   s.platform = :osx, '10.11'
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
+#   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
   s.swift_version = '5.0'
+  
 end

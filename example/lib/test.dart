@@ -16,6 +16,7 @@ class _TestState extends State<Test> {
     super.initState();
     link = AblLink.create(100);
     link.enable(true);
+    link.enableStartStopSync(true);
   }
 
   @override
