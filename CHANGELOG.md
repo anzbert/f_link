@@ -13,3 +13,7 @@
 # 0.2.1
 
 - Documentation fixes
+
+# 0.2.2
+
+- Documentation fixes and code cleanup
