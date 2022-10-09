@@ -14,8 +14,8 @@ Pod::Spec.new do |s|
 
   s.dependency 'FlutterMacOS'
 
-  s.source           = { :path => '.' } # local folder (for testing only)
-  # s.source           = { :git => 'https://github.com/ableton/link.git', :commit => '1f12bcb' }
+  s.source = { :path => '.' } # from local folder
+  # s.source = { :git => 'https://github.com/ableton/link.git', :commit => '1f12bcb' } # testing git support
 
   s.header_mappings_dir = 'link'
 
