@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(abl_link_library LANGUAGES CXX)
 
-set (LINK_DIR ${CMAKE_CURRENT_LIST_DIR}/../src/link)
+set (LINK_DIR ${CMAKE_CURRENT_LIST_DIR}/../macos/link)
 
 # For abl_link:
 add_library(abl_link SHARED ${LINK_DIR}/extensions/abl_link/src/abl_link.cpp ${LINK_DIR}/extensions/abl_link/include/abl_link.h)

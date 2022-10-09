@@ -13,6 +13,17 @@ in which each participant can perform independently: anyone can start
 or stop while still staying in time. Anyone can change the tempo, the
 others will follow. Anyone can join or leave without disrupting the session.
 
+## Usage
+
+### MacOS
+
+Requires entitlements to be set to give the app network usage permissions. Add this key to `macos/Runner/DebugProfile.entitlements` and to `macos/Runner/Release.entitlements`:
+
+```
+<key>com.apple.security.network.client</key>
+<true/>
+```
+
 ## Implementation
 
 - f_link currently wraps around all functions available in ['abl_link.h'](https://github.com/Ableton/link/blob/master/extensions/abl_link/include/abl_link.h) and makes them publicly available. The destructors are implemented with [NativeFinalizer](https://api.dart.dev/stable/2.18.2/dart-ffi/NativeFinalizer-class.html), which should make manually destroying instances and freeing memory unnecessary.

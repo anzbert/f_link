@@ -5,3 +5,7 @@
 # 0.1.2
 
 - Minor documentation fixes
+
+# 0.2.0
+
+- Added initial MacOS support

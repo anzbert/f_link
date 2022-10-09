@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.10)
 
 # Build a library that includes the official C-Extension as a shared library called 'abl_link'
 project(abl_link_library)
-set (LINK_DIR ${CMAKE_CURRENT_LIST_DIR}/link)
+set (LINK_DIR ${CMAKE_CURRENT_LIST_DIR}/../macos/link)
 
 # For abl_link:
 add_library(abl_link SHARED ${LINK_DIR}/extensions/abl_link/src/abl_link.cpp ${LINK_DIR}/extensions/abl_link/include/abl_link.h)
