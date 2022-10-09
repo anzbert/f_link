@@ -70,3 +70,7 @@ Ableton Link is dual licensed under GPLv2+ and a proprietary [license](https://g
 This means that this wrapper is automatically under the GPLv2+ as well. A copy of the license is distributed with the source code.
 
 If you would like to incorporate Link into a proprietary software application, please contact Ableton at <link-devs@ableton.com>.
+
+## Links
+
+I also made an Ableton Link wrapper for Rust, called [rusty_link](https://crates.io/crates/rusty_link), to learn about FFI wrapping before making this plugin.
