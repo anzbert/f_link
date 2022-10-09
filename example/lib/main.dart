@@ -31,7 +31,7 @@ class Main extends StatelessWidget {
       appBar: AppBar(
         title: const Text("F_Link Example"),
       ),
-      body: const Test(),
+      body: const OptionsMenu(),
     );
   }
 }

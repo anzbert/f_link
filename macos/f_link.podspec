@@ -22,24 +22,23 @@ Pod::Spec.new do |s|
 
   s.source           = { :path => '.' } # local folder (for testing only)
   # s.source           = { :git => 'https://github.com/ableton/link.git', :commit => '1f12bcb' }
+  
   s.header_mappings_dir = 'Classes/link'
-#   s.header_dir = 'Classes/link/include'
-#   s.preserve_paths = 'Classes/link'
+
   
   s.pod_target_xcconfig = {
-       'HEADER_SEARCH_PATHS' => ["\"" + __dir__ + "/Classes/link/include\"" , "\"" + __dir__ + "/Classes/link/modules/asio-standalone/asio/include\""]
+    'DEFINES_MODULE' => 'YES', 'HEADER_SEARCH_PATHS' => ["\"" + __dir__ + "/Classes/link/include\"" , "\"" + __dir__ + "/Classes/link/modules/asio-standalone/asio/include\""]
    }
    s.xcconfig = {
        'HEADER_SEARCH_PATHS' => ["\"${PODS_ROOT}/Classes/link/include\"" , "\"${PODS_ROOT}/Classes/link/modules/asio-standalone/asio/include\""]
    }
   
-  s.source_files     = 'Classes/link/extensions/abl_link/src/*.cpp', 'Classes/link/extensions/abl_link/include/*.h', 'Classes/link/include/**/{*.hpp,*.ipp}', 'Classes/link/modules/asio-standalone/asio/include/**/*'
+  s.source_files     = ['Classes/link/extensions/abl_link/src/*.cpp', 'Classes/link/extensions/abl_link/include/*.h', 'Classes/link/include/**/{*.hpp,*.ipp}', 'Classes/link/modules/asio-standalone/asio/include/**/{*.hpp,*.ipp,*.c,*.h}']
 
-  s.exclude_files =  '*.txt'
+#   s.exclude_files =  '*.txt'
 
   s.public_header_files = 'Classes/link/extensions/include/abl_link.h'
-#   s.private_header_files = 'Classes/link/include/ableton/Link.hpp', 'Classes/link/include/**/{*.hpp,*.ipp}', 
-  s.private_header_files = 'Classes/link/include/**/{*.hpp,*.ipp}', 
+  s.private_header_files = 'Classes/link/include/**/*.hpp', 
   
   s.compiler_flags = '-DLINK_PLATFORM_MACOSX=1'
 
