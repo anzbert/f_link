@@ -9,3 +9,7 @@
 # 0.2.0
 
 - Added initial MacOS support
+
+# 0.2.1
+
+- Documentation fixes

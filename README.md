@@ -15,6 +15,14 @@ others will follow. Anyone can join or leave without disrupting the session.
 
 ## Usage
 
+### Android
+
+Android apps must declare their use of the network in the Android manifest in `android/src/main/AndroidManifest.xml`. Add this permission request inside the `<manifest>` scope:
+
+```
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
 ### MacOS
 
 Requires entitlements to be set to give the app network usage permissions. Add this key to `macos/Runner/DebugProfile.entitlements` and to `macos/Runner/Release.entitlements`:
@@ -31,17 +39,17 @@ Requires entitlements to be set to give the app network usage permissions. Add t
 - At this point, handling thread and realtime safety with Audio and App SessionStates is left up to the user, just like in the original library.
 - Ableton's documentation should mostly still apply to this library, since implementations have been copied as they were.
 - The function documentation has been mostly copied from 'abl_link.h'.
-- Currently, callbacks have been omitted from this library (see Known Issues).
+- Callbacks have been omitted from this library (see Known Issues).
 
 ## Known Issues
 
-### No iOS and MacOS support yet
+### No iOS support yet
 
-Flutter uses Cocoapods and Xcode instead of CMake as build system for iOS and MacOS. Ableton also provides a different SDK for iOS, called [LinkKit](https://github.com/Ableton/LinkKit), which uses a different API to [Link](https://github.com/Ableton/link). Potentially, this library can wrap around both LinkKit and Link in the future.
+Ableton provides a different SDK for iOS, called [LinkKit](https://github.com/Ableton/LinkKit), which uses a different API to [Link](https://github.com/Ableton/link). Potentially, this library could wrap around both LinkKit and Link in the future.
 
 ### Destructors
 
-NativeFinalizer should reliably destroy the native objects attached to AblLink and SessionState instances when they leave the current scope and become inaccessible. More investigations are needed into the memory used by C++, to check for memory leaks.
+NativeFinalizer should reliably destroy the native objects attached to AblLink and SessionState instances when they leave the current scope and become inaccessible. More investigations may be needed into the memory used by C++, to check if that reliably happens.
 
 ### Registering callbacks with native code
 
@@ -49,7 +57,7 @@ Callbacks are not implemented yet. Native callbacks are difficult to implement i
 
 ### Example
 
-The example does not have audio yet. Audio probably has to be implemented on a seperate isolate to maintain sync and prevent blocking.
+The example does not have audio yet. Audio likely will need to be implemented on a seperate isolate to maintain sync and prevent blocking.
 
 ## Feedback
 
