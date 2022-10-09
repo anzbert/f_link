@@ -1,0 +1,3 @@
+[submodule "macos/link"]
+	path = macos/link
+	url = https://github.com/ableton/link
