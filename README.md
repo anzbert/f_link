@@ -13,6 +13,25 @@ in which each participant can perform independently: anyone can start
 or stop while still staying in time. Anyone can change the tempo, the
 others will follow. Anyone can join or leave without disrupting the session.
 
+## Usage
+
+### Android
+
+Android apps must declare their use of the network in the Android manifest in `android/src/main/AndroidManifest.xml`. Add this permission request inside the `<manifest>` scope:
+
+```
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
+### MacOS
+
+Requires entitlements to be set to give the app network usage permissions. Add this key to `macos/Runner/DebugProfile.entitlements` and to `macos/Runner/Release.entitlements`:
+
+```
+<key>com.apple.security.network.client</key>
+<true/>
+```
+
 ## Implementation
 
 - f_link currently wraps around all functions available in ['abl_link.h'](https://github.com/Ableton/link/blob/master/extensions/abl_link/include/abl_link.h) and makes them publicly available. The destructors are implemented with [NativeFinalizer](https://api.dart.dev/stable/2.18.2/dart-ffi/NativeFinalizer-class.html), which should make manually destroying instances and freeing memory unnecessary.
@@ -20,17 +39,17 @@ others will follow. Anyone can join or leave without disrupting the session.
 - At this point, handling thread and realtime safety with Audio and App SessionStates is left up to the user, just like in the original library.
 - Ableton's documentation should mostly still apply to this library, since implementations have been copied as they were.
 - The function documentation has been mostly copied from 'abl_link.h'.
-- Currently, callbacks have been omitted from this library (see Known Issues).
+- Callbacks have been omitted from this library (see Known Issues).
 
 ## Known Issues
 
-### No iOS and MacOS support yet
+### No iOS support yet
 
-Flutter uses Cocoapods and Xcode instead of CMake as build system for iOS and MacOS. Ableton also provides a different SDK for iOS, called [LinkKit](https://github.com/Ableton/LinkKit), which uses a different API to [Link](https://github.com/Ableton/link). Potentially, this library can wrap around both LinkKit and Link in the future.
+Ableton provides a different SDK for iOS, called [LinkKit](https://github.com/Ableton/LinkKit), which uses a different API to [Link](https://github.com/Ableton/link). Potentially, this library could wrap around both LinkKit and Link in the future.
 
 ### Destructors
 
-NativeFinalizer should reliably destroy the native objects attached to AblLink and SessionState instances when they leave the current scope and become inaccessible. More investigations are needed into the memory used by C++, to check for memory leaks.
+NativeFinalizer should reliably destroy the native objects attached to AblLink and SessionState instances when they leave the current scope and become inaccessible. More investigations may be needed into the memory used by C++, to check if that reliably happens.
 
 ### Registering callbacks with native code
 
@@ -38,7 +57,7 @@ Callbacks are not implemented yet. Native callbacks are difficult to implement i
 
 ### Example
 
-The example does not have audio yet. Audio probably has to be implemented on a seperate isolate to maintain sync and prevent blocking.
+The example does not have audio yet. Audio likely will need to be implemented on a seperate isolate to maintain sync and prevent blocking.
 
 ## Feedback
 
@@ -51,3 +70,7 @@ Ableton Link is dual licensed under GPLv2+ and a proprietary [license](https://g
 This means that this wrapper is automatically under the GPLv2+ as well. A copy of the license is distributed with the source code.
 
 If you would like to incorporate Link into a proprietary software application, please contact Ableton at <link-devs@ableton.com>.
+
+## Links
+
+I also made an Ableton Link wrapper for Rust, called [rusty_link](https://crates.io/crates/rusty_link), to learn about FFI wrapping before making this plugin.

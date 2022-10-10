@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "*.svx": "markdown",
+    "abl_link.h": "c",
+    "abl_link.cpp": "c"
+  }
+}
