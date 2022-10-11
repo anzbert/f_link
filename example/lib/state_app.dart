@@ -3,7 +3,7 @@ import 'package:f_link/f_link.dart';
 import 'package:f_link_example/state_link.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Polling rate in milliseconds of [appStateStreamPrv].
+/// Polling rate in milliseconds of the latest App [SessionState] by [appStateStreamPrv].
 final pollingRateAppStatePrv = StateProvider<int>((ref) => 66);
 
 /// Self-updating stream of the current App [SessionState]. The update frequency

@@ -10,7 +10,7 @@ final linkPrv = Provider<AblLink>((_) => AblLink.create(100.0));
 final quantumPrv = StateProvider<int>((ref) => 4);
 
 /// Polling rate in milliseconds of the [linkPrv] for changes in the number of
-/// currently connected peers.
+/// currently connected peers. Used by [numPeersStreamPrv].
 final pollingRateNumPeersPrv = StateProvider<int>((ref) => 500);
 
 /// Self-updating stream of the currently connected number of peers. The update frequency
