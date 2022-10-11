@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-/// Prints only in debug builds
+/// Print only in debug mode
 logd(dynamic object) {
   if (kDebugMode) print(object.toString());
 }

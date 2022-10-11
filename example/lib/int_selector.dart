@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-class IntCounterTile extends StatelessWidget {
-  const IntCounterTile(
+class IntSelectorTile extends StatelessWidget {
+  /// Int Value selector ListTile with Up and Down arrow and an optional Reset button.
+  const IntSelectorTile(
       {this.label = "#label",
       required this.readValue,
       required this.setValue,

@@ -1,5 +1,5 @@
 import 'package:f_link/f_link.dart';
-import 'package:f_link_example/counter_int.dart';
+import 'package:f_link_example/int_selector.dart';
 import 'package:f_link_example/state_app.dart';
 import 'package:f_link_example/state_link.dart';
 import 'package:flutter/material.dart';
@@ -19,15 +19,15 @@ class _OptionsMenuState extends ConsumerState<OptionsMenu> {
   Widget build(BuildContext context) {
     final link = ref.watch(linkPrv); // link will never trigger a rebuild
 
-    final bool isPlaying = ref.watch(appStateStream
+    final bool isPlaying = ref.watch(appStateStreamPrv
         .select((value) => value.valueOrNull?.isPlaying() ?? false));
 
     final int tempo = ref
-        .watch(
-            appStateStream.select((value) => value.valueOrNull?.tempo() ?? 120))
+        .watch(appStateStreamPrv
+            .select((value) => value.valueOrNull?.tempo() ?? 120))
         .toInt();
 
-    final int numPeers = ref.watch(numPeersStream).valueOrNull ?? 0;
+    final int numPeers = ref.watch(numPeersStreamPrv).valueOrNull ?? 0;
 
     return ListView(
       children: [
@@ -56,7 +56,7 @@ class _OptionsMenuState extends ConsumerState<OptionsMenu> {
           title: const Text("Number of Peers"),
           trailing: Text(numPeers.toString()),
         ),
-        IntCounterTile(
+        IntSelectorTile(
           label: "Tempo",
           readValue: tempo,
           setValue: (int x) {
@@ -67,7 +67,7 @@ class _OptionsMenuState extends ConsumerState<OptionsMenu> {
             }
           },
         ),
-        IntCounterTile(
+        IntSelectorTile(
           label: "Quantum",
           readValue: ref.watch(quantumPrv),
           setValue: (int x) {

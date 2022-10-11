@@ -3,28 +3,31 @@ import 'package:f_link/f_link.dart';
 import 'package:f_link_example/state_link.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final pollingRateAppState = StateProvider<int>((ref) => 66);
+/// Polling rate in milliseconds of [appStateStreamPrv].
+final pollingRateAppStatePrv = StateProvider<int>((ref) => 66);
 
-final appStateStream = StreamProvider.autoDispose<SessionState>(
+/// Self-updating stream of the current App [SessionState]. The update frequency
+/// is defined in the [pollingRateAppStatePrv]
+final appStateStreamPrv = StreamProvider.autoDispose<SessionState>(
   (ref) async* {
-    if (ref.watch(pollingRateAppState) != 0) {
-      final ticker = Stream<void>.periodic(
-          Duration(milliseconds: ref.watch(pollingRateAppState)));
-      SessionState current = SessionState.create();
+    final ticker = Stream<void>.periodic(
+        Duration(milliseconds: ref.watch(pollingRateAppStatePrv)));
+    SessionState current = SessionState.create();
 
-      await for (void _ in ticker) {
-        if (ref.read(linkPrv).isEnabled()) {
-          // print("Capturing App sessionState...");
-          ref.read(linkPrv).captureAppSessionState(current);
-          yield current;
-        }
+    await for (void _ in ticker) {
+      if (ref.read(linkPrv).isEnabled()) {
+        // print("Capturing App sessionState...");
+        ref.read(linkPrv).captureAppSessionState(current);
+        yield current;
       }
     }
   },
 );
 
+/// Provides the current Phase based on the App State. The update frequency
+/// is defined in the [pollingRateAppStatePrv]
 final phasePrv = Provider.autoDispose<double>((ref) {
-  final sesh = ref.watch(appStateStream).valueOrNull;
+  final sesh = ref.watch(appStateStreamPrv).valueOrNull;
   if (sesh == null) return 0;
 
   return sesh.phaseAtTime(
