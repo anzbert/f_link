@@ -1,3 +1,5 @@
+[![pub_package](https://img.shields.io/pub/v/f_link.svg?color=blue)](https://pub.dartlang.org/packages/f_link)
+
 # f_link
 
 f_link is a Flutter wrapper of [abl_link](https://github.com/Ableton/link/tree/master/extensions/abl_link), which
