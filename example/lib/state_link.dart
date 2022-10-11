@@ -11,7 +11,7 @@ final linkPrv = Provider<AblLink>((_) => AblLink.create(100.0));
 /// currently connected peers. Used by [numPeersStreamPrv].
 final pollingRateNumPeersPrv = StateProvider<int>((ref) => 500);
 
-/// Self-updating stream of the currently connected number of peers. The update frequency
+/// Self-updating stream of the currently connected number of peers in [linkPrv]. The update frequency
 /// is defined in the [pollingRateNumPeersPrv]
 final numPeersStreamPrv = StreamProvider.autoDispose<int>(
   (ref) async* {

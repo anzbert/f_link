@@ -8,7 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final pollingRateAppStatePrv = StateProvider<int>((ref) => 66);
 
 /// Self-updating stream of the current App [SessionState]. The update frequency
-/// is defined in the [pollingRateAppStatePrv]
+/// is defined in the [pollingRateAppStatePrv].
+///
+/// App [SessionState]s should only be used in the UI thread/isolate, not for Audio.
 final appStateStreamPrv = StreamProvider.autoDispose<SessionState>(
   (ref) async* {
     final ticker = Stream<void>.periodic(
@@ -25,8 +27,8 @@ final appStateStreamPrv = StreamProvider.autoDispose<SessionState>(
   },
 );
 
-/// Provides the current Phase based on the App State. The update frequency
-/// is defined in the [pollingRateAppStatePrv]
+/// Provides the current Phase based on the App [SessionState]. The update frequency
+/// is defined in the [pollingRateAppStatePrv].
 final phasePrv = Provider.autoDispose<double>((ref) {
   final sesh = ref.watch(appStateStreamPrv).valueOrNull;
   if (sesh == null) return 0;
