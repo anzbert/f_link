@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// AblLink instance, created within a Provider at the start of the App.
 ///
 /// Note: Changes in the contained native C++ Link Object will not trigger a rebuild of this Provider.
+/// Poll this provider instead to get the latest state.
 final linkPrv = Provider<AblLink>((_) => AblLink.create(100.0));
 
 /// Quantum setting to be used with [linkPrv].
