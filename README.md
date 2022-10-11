@@ -43,6 +43,12 @@ Requires entitlements to be set to give the app network usage permissions. Add t
 
 ## Known Issues
 
+### Audio Playback and Latency
+
+Audio playback and latency in Flutter requires some careful considerations as it is somewhat platform and integration dependent. Latency compensation would certainly need to be factored into the code either way.
+
+Ableton recommends to handle audio Session States in a separate thread to minimize latency. This could potentially be achieved with isolates and maybe even by integrating another low level native library to handle playback. I am happy to receive feedback on this issue and I may update the example at some point with a possible solution.
+
 ### No iOS support yet
 
 Ableton provides a different SDK for iOS, called [LinkKit](https://github.com/Ableton/LinkKit), which uses a different API to [Link](https://github.com/Ableton/link). Potentially, this library could wrap around both LinkKit and Link in the future.
@@ -54,10 +60,6 @@ Callbacks are not implemented yet. Native callbacks are difficult to implement i
 ### Destructors
 
 NativeFinalizer should reliably destroy the native objects attached to AblLink and SessionState instances when they leave the current scope and become inaccessible. More investigations may be needed into the memory used by C++, to check if that reliably happens.
-
-### Example
-
-The example does not have audio yet. Audio likely will need to be implemented on a seperate isolate to maintain sync and prevent blocking.
 
 ## Feedback
 
