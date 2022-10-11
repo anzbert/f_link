@@ -7,9 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Poll this provider instead to get the latest state.
 final linkPrv = Provider<AblLink>((_) => AblLink.create(100.0));
 
-/// Quantum setting to be used with [linkPrv].
-final quantumPrv = StateProvider<int>((ref) => 4);
-
 /// Polling rate in milliseconds of the [linkPrv] for changes in the number of
 /// currently connected peers. Used by [numPeersStreamPrv].
 final pollingRateNumPeersPrv = StateProvider<int>((ref) => 500);

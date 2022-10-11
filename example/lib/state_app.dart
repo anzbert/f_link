@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:f_link/f_link.dart';
 import 'package:f_link_example/state_link.dart';
+import 'package:f_link_example/state_settings.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Polling rate in milliseconds of the latest App [SessionState] by [appStateStreamPrv].
