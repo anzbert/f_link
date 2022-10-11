@@ -62,6 +62,8 @@ class AblLink implements Finalizable {
   }
 
   /// Returns true if the contained [abl_link] C++ Object has been disposed of in memory with [destroy].
+  /// This should not be needed as [NativeFinalizer] cleans up
+  /// the underlying memory automatically when the [AblLink] instance becomes inaccessible.
   bool get destroyed {
     return _destroyed;
   }
@@ -320,12 +322,16 @@ class SessionState implements Finalizable {
     return sessionState;
   }
 
-  /// Returns true if the contained [abl_link_session_state] C++ Object has been disposed of in memory with [destroy].
+  /// Returns true if the contained [abl_link_session_state] C++ Object has been disposed
+  /// of in memory with [destroy].
+  /// This should not be needed as [NativeFinalizer] cleans up
+  /// the underlying memory automatically when the [SessionState] instance becomes inaccessible.
   bool get destroyed {
     return _destroyed;
   }
 
-  /// Manually delete the C++ representation of the [abl_link_session_state] instance contained in this object.
+  /// Manually delete the C++ representation of the [abl_link_session_state] instance
+  /// contained in this object.
   /// Renders this instance unusable. This should not be needed as [NativeFinalizer] cleans up
   /// the underlying memory automatically when the [SessionState] instance becomes inaccessible.
   ///
