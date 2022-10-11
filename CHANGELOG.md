@@ -17,3 +17,7 @@
 # 0.2.2
 
 - Documentation fixes and code cleanup
+
+# 0.2.3
+
+- Example cleaned up and documentation updated

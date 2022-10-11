@@ -1,6 +1,6 @@
 name: f_link
 description: A wrapper plugin for Ableton Link's C extension to be used with Flutter.
-version: 0.2.2
+version: 0.2.3
 repository: https://github.com/anzbert/f_link
 
 environment:

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.10)
 project(abl_link_library LANGUAGES CXX)
 
 set (LINK_DIR ${CMAKE_CURRENT_LIST_DIR}/../macos/link)

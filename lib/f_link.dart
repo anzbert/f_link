@@ -64,6 +64,8 @@ class AblLink implements Finalizable {
   /// Returns true if the contained [abl_link] C++ Object has been disposed of in memory with [destroy].
   /// This should not be needed as [NativeFinalizer] cleans up
   /// the underlying memory automatically when the [AblLink] instance becomes inaccessible.
+  ///
+  /// This will likely be removed in a future version of this package!
   bool get destroyed {
     return _destroyed;
   }
@@ -75,6 +77,8 @@ class AblLink implements Finalizable {
   /// Thread-safe: yes
   ///
   /// Realtime-safe: no
+  ///
+  /// This will likely be removed in a future version of this package!
   void destroy() {
     if (!_destroyed) {
       enable(false);
@@ -326,6 +330,8 @@ class SessionState implements Finalizable {
   /// of in memory with [destroy].
   /// This should not be needed as [NativeFinalizer] cleans up
   /// the underlying memory automatically when the [SessionState] instance becomes inaccessible.
+  ///
+  /// This will likely be removed in a future version of this package!
   bool get destroyed {
     return _destroyed;
   }
@@ -338,8 +344,9 @@ class SessionState implements Finalizable {
   /// Thread-safe: yes
   ///
   ///  Realtime-safe: no
-  // ignore: unused_element
-  void _destroy() {
+  ///
+  /// This will likely be removed in a future version of this package!
+  void destroy() {
     if (!_destroyed) {
       _bindings.abl_link_destroy_session_state(_sessionState);
       _finalizer.detach(this);
