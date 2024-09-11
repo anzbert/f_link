@@ -1,3 +1,9 @@
+# 0.2.5
+
+- Updated to latest Ableton Link 3.1.2
+- Updated all dependencies
+- Update deprecated android build settings
+
 # 0.2.4
 
 - Updated to latest Ableton Link SDK (3.0.6)
