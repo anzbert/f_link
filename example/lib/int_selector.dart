@@ -7,8 +7,7 @@ class IntSelectorTile extends StatelessWidget {
       required this.readValue,
       required this.setValue,
       this.resetFunction,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final String label;
   final int readValue;

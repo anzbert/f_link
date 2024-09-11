@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OptionsMenu extends ConsumerStatefulWidget {
-  const OptionsMenu({Key? key}) : super(key: key);
+  const OptionsMenu({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _OptionsMenuState();
@@ -110,7 +110,7 @@ class _OptionsMenuState extends ConsumerState<OptionsMenu> {
 }
 
 class Metronome extends ConsumerWidget {
-  const Metronome({Key? key}) : super(key: key);
+  const Metronome({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -136,8 +136,8 @@ class Metronome extends ConsumerWidget {
 
 class PhaseListTile extends ConsumerWidget {
   const PhaseListTile({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
