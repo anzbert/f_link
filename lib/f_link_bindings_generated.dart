@@ -285,9 +285,9 @@ class FLinkBindings {
   }
 
   late final _abl_link_capture_audio_session_statePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(abl_link,
-              abl_link_session_state)>>('abl_link_capture_audio_session_state');
+          ffi
+          .NativeFunction<ffi.Void Function(abl_link, abl_link_session_state)>>(
+      'abl_link_capture_audio_session_state');
   late final _abl_link_capture_audio_session_state =
       _abl_link_capture_audio_session_statePtr
           .asFunction<void Function(abl_link, abl_link_session_state)>();
@@ -311,9 +311,9 @@ class FLinkBindings {
   }
 
   late final _abl_link_commit_audio_session_statePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(abl_link,
-              abl_link_session_state)>>('abl_link_commit_audio_session_state');
+          ffi
+          .NativeFunction<ffi.Void Function(abl_link, abl_link_session_state)>>(
+      'abl_link_commit_audio_session_state');
   late final _abl_link_commit_audio_session_state =
       _abl_link_commit_audio_session_statePtr
           .asFunction<void Function(abl_link, abl_link_session_state)>();
@@ -337,9 +337,9 @@ class FLinkBindings {
   }
 
   late final _abl_link_capture_app_session_statePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(abl_link,
-              abl_link_session_state)>>('abl_link_capture_app_session_state');
+          ffi
+          .NativeFunction<ffi.Void Function(abl_link, abl_link_session_state)>>(
+      'abl_link_capture_app_session_state');
   late final _abl_link_capture_app_session_state =
       _abl_link_capture_app_session_statePtr
           .asFunction<void Function(abl_link, abl_link_session_state)>();
@@ -363,9 +363,9 @@ class FLinkBindings {
   }
 
   late final _abl_link_commit_app_session_statePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(abl_link,
-              abl_link_session_state)>>('abl_link_commit_app_session_state');
+          ffi
+          .NativeFunction<ffi.Void Function(abl_link, abl_link_session_state)>>(
+      'abl_link_commit_app_session_state');
   late final _abl_link_commit_app_session_state =
       _abl_link_commit_app_session_statePtr
           .asFunction<void Function(abl_link, abl_link_session_state)>();
@@ -680,7 +680,7 @@ class _SymbolAddresses {
 }
 
 /// ! @brief The representation of an abl_link instance
-class abl_link extends ffi.Struct {
+final class abl_link extends ffi.Struct {
   external ffi.Pointer<ffi.Void> impl;
 }
 
@@ -726,6 +726,6 @@ typedef abl_link_start_stop_callback = ffi.Pointer<
 /// This means that the current local start/stop state persists when
 /// joining or leaving a Link session. After joining a Link session
 /// start/stop change requests will be communicated to all connected peers.
-class abl_link_session_state extends ffi.Struct {
+final class abl_link_session_state extends ffi.Struct {
   external ffi.Pointer<ffi.Void> impl;
 }
